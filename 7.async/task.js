@@ -4,20 +4,22 @@ class AlarmClock {
     this.timerId = null;
   }
 
-  addClock(timeToStart, cb, id) {
+  addClock(time, cb, id) {
     if (!id) {
       throw new Error('error text')
     }
-    let searchId = this.alarmCollection?.find((el) => el?.id === id);
+    let searchId = this.alarmCollection.find((el) => el.id === id);
 
     if (searchId) {
       return console.error('error text');
     }
-    this.alarmCollection.push({ time:timeToStart, cb, id })
+    this.alarmCollection.push({ time, cb, id })
   }
 
   removeClock(id) {
+    const arrayLength = this.alarmCollection.length;
     this.alarmCollection = this.alarmCollection.filter((el) => el.id !== id)
+    return (arrayLength !== this.alarmCollection.length) ? true : false
   }
 
   getCurrentFormattedTime() {
@@ -33,20 +35,16 @@ class AlarmClock {
       }
     }
     
-
-    setInterval(() => {
-      this.alarmCollection.forEach((el) => checkClock(el.time))
+    let intervalId = setInterval(() => {
+      this.alarmCollection.forEach((el) => checkClock.bind(this, el.time))
     }, 1000)
-
+    this.timerId = intervalId;
   }
 
 
-  stop(id) {
-    this.alarmCollection.forEach(el => {
-      if (el.id === id) {
-        clearInterval()
-      }
-    })
+  stop() {
+    clearInterval(this.timerId);
+    this.timerId = null;
   }
 
   printAlarms() {
@@ -54,9 +52,13 @@ class AlarmClock {
   }
 
   clearAlarms() {
-    this.alarmCollection.length = 0;
+    this.alarmCollection = []
   }
 }
 
-const a = new AlarmClock();
-console.log(a.getCurrentFormattedTime())
+
+const a = new AlarmClock()
+a.addClock('12:12', () => console.log('hello'), 1)
+
+
+console.log(a.alarmCollection.length)
