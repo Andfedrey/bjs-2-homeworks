@@ -19,7 +19,7 @@ class AlarmClock {
   removeClock(id) {
     const arrayLength = this.alarmCollection.length;
     this.alarmCollection = this.alarmCollection.filter((el) => el.id !== id)
-    return (arrayLength !== this.alarmCollection.length) ? true : false
+    return arrayLength !== this.alarmCollection.length
   }
 
   getCurrentFormattedTime() {
@@ -28,17 +28,22 @@ class AlarmClock {
   }
 
   start() {
-    function checkClock(time) {
+    let timeoutId = null;
+    const checkClock = (time) => {
       let nowTime = this.getCurrentFormattedTime()
       if (time.time === nowTime) {
         time.cb();
       }
     }
-    
-    let intervalId = setInterval(() => {
-      this.alarmCollection.forEach((el) => checkClock.bind(this, el.time))
+
+    if(timeoutId){
+      return 
+    }
+
+    timeoutId = setInterval(() => {
+      this.alarmCollection.forEach((el) => checkClock(el.time))
     }, 1000)
-    this.timerId = intervalId;
+    
   }
 
 
