@@ -2,6 +2,7 @@ class AlarmClock {
   constructor() {
     this.alarmCollection = [];
     this.timerId = null;
+    this.timeoutId = null;
   }
 
   addClock(time, cb, id) {
@@ -28,7 +29,6 @@ class AlarmClock {
   }
 
   start() {
-    let timeoutId = null;
     const checkClock = (time) => {
       let nowTime = this.getCurrentFormattedTime()
       if (time.time === nowTime) {
@@ -36,11 +36,11 @@ class AlarmClock {
       }
     }
 
-    if(timeoutId){
+    if(this.timeoutId){
       return 
     }
 
-    timeoutId = setInterval(() => {
+    this.timeoutId = setInterval(() => {
       this.alarmCollection.forEach((el) => checkClock(el.time))
     }, 1000)
     
@@ -48,8 +48,8 @@ class AlarmClock {
 
 
   stop() {
-    clearInterval(this.timerId);
-    this.timerId = null;
+    clearInterval(this.timeoutId);
+    this.timeoutId = null;
   }
 
   printAlarms() {
