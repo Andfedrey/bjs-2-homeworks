@@ -19,33 +19,7 @@ function cachingDecoratorNew(func) {
   }
 }
 
-//Задача № 2
-// function debounceDecoratorNew(func, delay) {
-//   function wrapper(...args) {
-//     wrapper.counter++;
-//     return func(...args);
-//   };
-//   wrapper.counter = 0;
-//   if (wrapper.counter === 0) {
-//     return wrapper
-//   } else {
-//     setTimeout(wrapper, delay);
-//   }
-// }
-
-
-// function sum(a, b) {
-//   return a + b;
-// }
-
-// const test = debounceDecoratorNew(sum, 1500)
-// console.log(test.counter);
-// console.log(test(5, 5));
-// console.log(test.counter)
-// console.log(test(12,12))
-// console.log(test.counter);
-// console.log(test(3,2))
-// console.log(test.counter)
+// Задание 2
 
 function debounceDecoratorNew(func, delay) {
   let timeoutId = null
