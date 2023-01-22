@@ -67,3 +67,4 @@ a.addClock('12:12', () => console.log('hello'), 1)
 
 
 console.log(a.alarmCollection.length)
+
